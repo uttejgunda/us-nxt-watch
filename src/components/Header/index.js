@@ -1,68 +1,136 @@
 import {withRouter, Link} from 'react-router-dom'
 import {FaMoon} from 'react-icons/fa'
 import {FiLogOut} from 'react-icons/fi'
-import {GrMenu} from 'react-icons/gr'
+import {HiMenu} from 'react-icons/hi'
+import {BsBrightnessHigh} from 'react-icons/bs'
 import Cookies from 'js-cookie'
+import Popup from 'reactjs-popup'
 
 import {
   MainContainer,
   ContentContainer,
   WebsiteLogo,
   MenuRow,
-  MenuMoonSmButton,
-  MenuMoonLgButton,
+  MenuMoonButton,
   MenuBurgerSmButton,
   MenuBurgerLgButton,
   ProfileIcon,
   MenuLogoutSmButton,
   MenuLogoutLgButton,
+  PopupMainContainer,
+  PopupDesc,
+  PopupButtonsRow,
+  PopupCancelButton,
+  PopupLogoutButton,
 } from './styledComponents'
+import VideosContext from '../../context/VideosContext'
 
-const Header = props => {
-  const onLogout = () => {
-    const {history} = props
-    Cookies.remove('jwt_token')
-    history.replace('/login')
-  }
+const Header = props => (
+  <VideosContext.Consumer>
+    {value => {
+      const {isDarkMode, toggleDarkMode} = value
 
-  return (
-    <MainContainer>
-      <ContentContainer>
-        <Link to="/">
-          <WebsiteLogo
-            src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-            alt="website logo"
-          />
-        </Link>
-        <MenuRow>
-          <MenuMoonSmButton type="button" data-testid="theme">
-            <FaMoon size="20" />
-          </MenuMoonSmButton>
+      const onLogout = () => {
+        const {history} = props
+        Cookies.remove('jwt_token')
+        history.replace('/login')
+      }
 
-          <MenuMoonLgButton type="button" data-testid="theme">
-            <FaMoon size="23" />
-          </MenuMoonLgButton>
+      const onThemeChange = () => {
+        toggleDarkMode()
+      }
 
-          <MenuBurgerSmButton type="button">
-            <GrMenu size="20" />
-          </MenuBurgerSmButton>
-          <MenuBurgerLgButton type="button">
-            <ProfileIcon
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
-              alt="profile"
-            />
-          </MenuBurgerLgButton>
+      return (
+        <MainContainer isDarkMode={isDarkMode}>
+          <ContentContainer>
+            <Link to="/">
+              <WebsiteLogo
+                src={
+                  isDarkMode
+                    ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+                    : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+                }
+                alt="website logo"
+              />
+            </Link>
+            <MenuRow>
+              <MenuMoonButton
+                onClick={onThemeChange}
+                type="button"
+                data-testid="theme"
+              >
+                {isDarkMode ? (
+                  <BsBrightnessHigh size="100%" color="#ffffff" />
+                ) : (
+                  <FaMoon size="100%" color="#181818" />
+                )}
+              </MenuMoonButton>
 
-          <MenuLogoutSmButton type="button" onClick={onLogout}>
-            <FiLogOut size="22" />
-          </MenuLogoutSmButton>
-          <MenuLogoutLgButton type="button" onClick={onLogout}>
-            Logout
-          </MenuLogoutLgButton>
-        </MenuRow>
-      </ContentContainer>
-    </MainContainer>
-  )
-}
+              <MenuBurgerSmButton type="button">
+                <HiMenu
+                  size="100%"
+                  color={isDarkMode ? '#ffffff' : '#181818'}
+                />
+              </MenuBurgerSmButton>
+              <MenuBurgerLgButton type="button">
+                <ProfileIcon
+                  src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
+                  alt="profile"
+                />
+              </MenuBurgerLgButton>
+
+              <MenuLogoutSmButton type="button" onClick={onLogout}>
+                <FiLogOut
+                  size="100%"
+                  color={isDarkMode ? '#ffffff' : '#181818'}
+                />
+              </MenuLogoutSmButton>
+
+              <div className="popup-container">
+                <Popup
+                  modal
+                  trigger={
+                    <MenuLogoutLgButton
+                      type="button"
+                      isDarkMode={isDarkMode}
+                      onClick={onLogout}
+                    >
+                      Logout
+                    </MenuLogoutLgButton>
+                  }
+                >
+                  {close => (
+                    <PopupMainContainer isDarkMode={isDarkMode}>
+                      <PopupDesc isDarkMode={isDarkMode}>
+                        Are you sure, you want to logout
+                      </PopupDesc>
+
+                      <PopupButtonsRow>
+                        <PopupCancelButton
+                          type="button"
+                          className="trigger-button"
+                          onClick={() => close()}
+                        >
+                          Cancel
+                        </PopupCancelButton>
+                        <PopupLogoutButton
+                          type="button"
+                          className="trigger-button"
+                          onClick={onLogout}
+                        >
+                          Confirm
+                        </PopupLogoutButton>
+                      </PopupButtonsRow>
+                    </PopupMainContainer>
+                  )}
+                </Popup>
+              </div>
+            </MenuRow>
+          </ContentContainer>
+        </MainContainer>
+      )
+    }}
+  </VideosContext.Consumer>
+)
 
 export default withRouter(Header)

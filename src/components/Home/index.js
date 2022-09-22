@@ -6,6 +6,7 @@ import Header from '../Header'
 import PremiumCard from '../PremiumCard'
 import SideMenuBar from '../SideMenuBar'
 import VideoCard from '../VideoCard'
+import VideosContext from '../../context/VideosContext'
 
 import {
   HomeMainContainer,
@@ -128,19 +129,33 @@ class Home extends Component {
   )
 
   renderFailureView = () => (
-    <FailureContainer>
-      <FailureImg
-        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-        alt="failure view"
-      />
-      <FailureTitle>Oops! Something Went Wrong</FailureTitle>
-      <FailureDesc>
-        We are having some trouble to complete your request. Please try again.
-      </FailureDesc>
-      <RetryButton type="button" onClick={this.onRetryClick}>
-        Retry
-      </RetryButton>
-    </FailureContainer>
+    <VideosContext.Consumer>
+      {value => {
+        const {isDarkMode} = value
+        return (
+          <FailureContainer>
+            <FailureImg
+              src={
+                isDarkMode
+                  ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+                  : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+              }
+              alt="failure view"
+            />
+            <FailureTitle isDarkMode={isDarkMode}>
+              Oops! Something Went Wrong
+            </FailureTitle>
+            <FailureDesc isDarkMode={isDarkMode}>
+              We are having some trouble to complete your request. Please try
+              again.
+            </FailureDesc>
+            <RetryButton type="button" onClick={this.onRetryClick}>
+              Retry
+            </RetryButton>
+          </FailureContainer>
+        )
+      }}
+    </VideosContext.Consumer>
   )
 
   contentRenderSwitch = () => {
@@ -175,36 +190,46 @@ class Home extends Component {
   render() {
     const {showPremiumCard} = this.state
     return (
-      <HomeMainContainer data-testid="home">
-        <Header />
-        <ResponsiveContainer>
-          <SideMenuBar />
-          <ContentContainer>
-            {showPremiumCard && (
-              <PremiumCard onClosePremiumCard={this.onClosePremiumCard} />
-            )}
-            <BottomContainer>
-              <InputContainer>
-                <InputField
-                  type="search"
-                  placeholder="Search"
-                  onChange={this.onUserSearchInput}
-                  onKeyDown={this.onEnterClick}
-                />
-                <SearchButton
-                  type="button"
-                  data-testid="searchButton"
-                  onClick={this.onSearchClick}
-                >
-                  <GoSearch color="#606060" />
-                </SearchButton>
-              </InputContainer>
+      <VideosContext.Consumer>
+        {value => {
+          const {isDarkMode} = value
 
-              {this.contentRenderSwitch()}
-            </BottomContainer>
-          </ContentContainer>
-        </ResponsiveContainer>
-      </HomeMainContainer>
+          return (
+            <HomeMainContainer isDarkMode={isDarkMode} data-testid="home">
+              <Header />
+              <ResponsiveContainer>
+                <SideMenuBar />
+                <ContentContainer>
+                  {showPremiumCard && (
+                    <PremiumCard onClosePremiumCard={this.onClosePremiumCard} />
+                  )}
+                  <BottomContainer>
+                    <InputContainer>
+                      <InputField
+                        type="search"
+                        placeholder="Search"
+                        onChange={this.onUserSearchInput}
+                        onKeyDown={this.onEnterClick}
+                        isDarkMode={isDarkMode}
+                      />
+                      <SearchButton
+                        type="button"
+                        data-testid="searchButton"
+                        onClick={this.onSearchClick}
+                        isDarkMode={isDarkMode}
+                      >
+                        <GoSearch color="#606060" />
+                      </SearchButton>
+                    </InputContainer>
+
+                    {this.contentRenderSwitch()}
+                  </BottomContainer>
+                </ContentContainer>
+              </ResponsiveContainer>
+            </HomeMainContainer>
+          )
+        }}
+      </VideosContext.Consumer>
     )
   }
 }

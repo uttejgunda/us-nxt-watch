@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import TrendingVideoCard from '../TrendingVideoCard'
 import SideMenuBar from '../SideMenuBar'
+import VideosContext from '../../context/VideosContext'
 
 import Header from '../Header'
 import {
@@ -94,19 +95,33 @@ class Trending extends Component {
   )
 
   renderFailureView = () => (
-    <FailureContainer>
-      <FailureImg
-        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-        alt="failure view"
-      />
-      <FailureTitle>Oops! Something Went Wrong</FailureTitle>
-      <FailureDesc>
-        We are having some trouble to complete your request. Please try again.
-      </FailureDesc>
-      <RetryButton type="button" onClick={this.onRetryClick}>
-        Retry
-      </RetryButton>
-    </FailureContainer>
+    <VideosContext.Consumer>
+      {value => {
+        const {isDarkMode} = value
+        return (
+          <FailureContainer>
+            <FailureImg
+              src={
+                isDarkMode
+                  ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+                  : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+              }
+              alt="failure view"
+            />
+            <FailureTitle isDarkMode={isDarkMode}>
+              Oops! Something Went Wrong
+            </FailureTitle>
+            <FailureDesc isDarkMode={isDarkMode}>
+              We are having some trouble to complete your request. Please try
+              again.
+            </FailureDesc>
+            <RetryButton type="button" onClick={this.onRetryClick}>
+              Retry
+            </RetryButton>
+          </FailureContainer>
+        )
+      }}
+    </VideosContext.Consumer>
   )
 
   renderSwitch = () => {
@@ -126,21 +141,31 @@ class Trending extends Component {
 
   render() {
     return (
-      <TrendingMainContainer>
-        <Header />
-        <ResponsiveContainer>
-          <SideMenuBar />
-          <ContentContainer>
-            <TopContainer>
-              <FireIconContainer>
-                <HiFire size="57%" color="#ff0000" />
-              </FireIconContainer>
-              <PageTitle>Trending</PageTitle>
-            </TopContainer>
-            {this.renderSwitch()}
-          </ContentContainer>
-        </ResponsiveContainer>
-      </TrendingMainContainer>
+      <VideosContext.Consumer>
+        {value => {
+          const {isDarkMode} = value
+          return (
+            <TrendingMainContainer
+              data-testid="trending"
+              isDarkMode={isDarkMode}
+            >
+              <Header />
+              <ResponsiveContainer>
+                <SideMenuBar />
+                <ContentContainer>
+                  <TopContainer isDarkMode={isDarkMode}>
+                    <FireIconContainer isDarkMode={isDarkMode}>
+                      <HiFire size="57%" color="#ff0000" />
+                    </FireIconContainer>
+                    <PageTitle isDarkMode={isDarkMode}>Trending</PageTitle>
+                  </TopContainer>
+                  {this.renderSwitch()}
+                </ContentContainer>
+              </ResponsiveContainer>
+            </TrendingMainContainer>
+          )
+        }}
+      </VideosContext.Consumer>
     )
   }
 }

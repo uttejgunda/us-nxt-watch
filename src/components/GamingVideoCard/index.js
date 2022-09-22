@@ -1,4 +1,5 @@
 import {Link} from 'react-router-dom'
+import VideosContext from '../../context/VideosContext'
 import {
   ListItem,
   Thumbnail,
@@ -11,15 +12,24 @@ const GamingVideoCard = props => {
   const {details} = props
   const {id, thumbnailUrl, title, viewCount} = details
   return (
-    <ListItem>
-      <Link to={`/videos/${id}`} style={{textDecoration: 'none'}}>
-        <Thumbnail src={thumbnailUrl} alt="video thumbnail" />
-        <VideoDetailsContainer>
-          <Title>{title}</Title>
-          <ViewCount>{`${viewCount} Watching Worldwide`}</ViewCount>
-        </VideoDetailsContainer>
-      </Link>
-    </ListItem>
+    <VideosContext.Consumer>
+      {value => {
+        const {isDarkMode} = value
+        return (
+          <ListItem>
+            <Link to={`/videos/${id}`} style={{textDecoration: 'none'}}>
+              <Thumbnail src={thumbnailUrl} alt="video thumbnail" />
+              <VideoDetailsContainer>
+                <Title isDarkMode={isDarkMode}>{title}</Title>
+                <ViewCount
+                  isDarkMode={isDarkMode}
+                >{`${viewCount} Watching Worldwide`}</ViewCount>
+              </VideoDetailsContainer>
+            </Link>
+          </ListItem>
+        )
+      }}
+    </VideosContext.Consumer>
   )
 }
 

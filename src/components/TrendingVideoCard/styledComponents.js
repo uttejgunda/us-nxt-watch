@@ -37,9 +37,13 @@ export const Title = styled.p`
   font-family: 'Roboto';
   font-size: 14px;
   font-weight: 500;
-  color: #231f20;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#231f20')};
   margin-top: 0px;
   margin-bottom: 0px;
+
+  @media screen and (min-width: 576px) {
+    font-size: 18px;
+  }
 `
 export const ChannelDetailsContainer = styled.div`
   display: flex;
@@ -54,7 +58,7 @@ export const ChannelDetailsContainer = styled.div`
 export const ChannelDesc = styled.p`
   font-family: 'Roboto';
   font-size: 12px;
-  color: #606060;
+  color: ${props => (props.isDarkMode ? '#94a3b8' : '#606060')};
   font-weight: ${props => (props.seperator ? 'bold' : 'normal')};
   margin-right: ${props => (props.seperator ? '10px' : '0px')};
   margin-left: ${props => (props.seperator ? '10px' : '0px')};
@@ -65,6 +69,7 @@ export const ChannelDesc = styled.p`
     margin-left: ${props => (props.seperator ? '5px' : '0px')};
     margin-bottom: 0px;
     margin-top: ${props => (props.channelName ? '8px' : '4px')};
+    font-size: 14px;
   }
 `
 

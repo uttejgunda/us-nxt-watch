@@ -108,6 +108,7 @@ class VideoItemDetails extends Component {
           removeLikedVideo,
           savedVideos,
           toggleSaveVideo,
+          isDarkMode,
         } = value
         console.log(savedVideos)
         const {videoDetails} = this.state
@@ -147,12 +148,18 @@ class VideoItemDetails extends Component {
             </PlayerSmContainer>
 
             <DetailsContainer>
-              <VideoTitle>{videoDetails.title}</VideoTitle>
+              <VideoTitle isDarkMode={isDarkMode}>
+                {videoDetails.title}
+              </VideoTitle>
               <ViewsAndActionsContainer>
                 <ViewsAndDateRow>
-                  <ViewsAndDateItem>{videoDetails.viewCount}</ViewsAndDateItem>
-                  <ViewsAndDateItem seperator>•</ViewsAndDateItem>
-                  <ViewsAndDateItem>
+                  <ViewsAndDateItem isDarkMode={isDarkMode}>
+                    {videoDetails.viewCount}
+                  </ViewsAndDateItem>
+                  <ViewsAndDateItem seperator isDarkMode={isDarkMode}>
+                    •
+                  </ViewsAndDateItem>
+                  <ViewsAndDateItem isDarkMode={isDarkMode}>
                     {videoDetails.publishedAt}
                   </ViewsAndDateItem>
                 </ViewsAndDateRow>
@@ -186,11 +193,13 @@ class VideoItemDetails extends Component {
                       size="22px"
                       color={isSaved ? '#2563eb' : '#64748b'}
                     />
-                    <ActionSavedTitle isSaved={isSaved}>Save</ActionSavedTitle>
+                    <ActionSavedTitle isSaved={isSaved}>
+                      {isSaved ? 'Saved' : 'Save'}
+                    </ActionSavedTitle>
                   </ActionButton>
                 </ActionsRow>
               </ViewsAndActionsContainer>
-              <HrTag />
+              <HrTag isDarkMode={isDarkMode} />
 
               <ChannelDetailsContainer>
                 <ProfilePic
@@ -198,14 +207,18 @@ class VideoItemDetails extends Component {
                   alt="channel logo"
                 />
                 <div>
-                  <ChannelName>{videoDetails.channel.name}</ChannelName>
-                  <ChannelSubscribers>
+                  <ChannelName isDarkMode={isDarkMode}>
+                    {videoDetails.channel.name}
+                  </ChannelName>
+                  <ChannelSubscribers isDarkMode={isDarkMode}>
                     {videoDetails.channel.subscriberCount}
                   </ChannelSubscribers>
                 </div>
               </ChannelDetailsContainer>
 
-              <VideoDesc>{videoDetails.description}</VideoDesc>
+              <VideoDesc isDarkMode={isDarkMode}>
+                {videoDetails.description}
+              </VideoDesc>
             </DetailsContainer>
           </>
         )
@@ -222,19 +235,33 @@ class VideoItemDetails extends Component {
   )
 
   renderFailureView = () => (
-    <FailureContainer>
-      <FailureImg
-        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
-        alt="failure view"
-      />
-      <FailureTitle>Oops! Something Went Wrong</FailureTitle>
-      <FailureDesc>
-        We are having some trouble to complete your request. Please try again.
-      </FailureDesc>
-      <RetryButton type="button" onClick={this.onRetryClick}>
-        Retry
-      </RetryButton>
-    </FailureContainer>
+    <VideosContext.Consumer>
+      {value => {
+        const {isDarkMode} = value
+        return (
+          <FailureContainer>
+            <FailureImg
+              src={
+                isDarkMode
+                  ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+                  : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+              }
+              alt="failure view"
+            />
+            <FailureTitle isDarkMode={isDarkMode}>
+              Oops! Something Went Wrong
+            </FailureTitle>
+            <FailureDesc isDarkMode={isDarkMode}>
+              We are having some trouble to complete your request. Please try
+              again.
+            </FailureDesc>
+            <RetryButton type="button" onClick={this.onRetryClick}>
+              Retry
+            </RetryButton>
+          </FailureContainer>
+        )
+      }}
+    </VideosContext.Consumer>
   )
 
   contentRenderSwitch = () => {
@@ -254,13 +281,22 @@ class VideoItemDetails extends Component {
 
   render() {
     return (
-      <VideoDetails>
-        <Header />
-        <ResponsiveContainer>
-          <SideMenuBar />
-          <ContentContainer>{this.contentRenderSwitch()}</ContentContainer>
-        </ResponsiveContainer>
-      </VideoDetails>
+      <VideosContext.Consumer>
+        {value => {
+          const {isDarkMode} = value
+          return (
+            <VideoDetails isDarkMode={isDarkMode}>
+              <Header />
+              <ResponsiveContainer>
+                <SideMenuBar />
+                <ContentContainer>
+                  {this.contentRenderSwitch()}
+                </ContentContainer>
+              </ResponsiveContainer>
+            </VideoDetails>
+          )
+        }}
+      </VideosContext.Consumer>
     )
   }
 }

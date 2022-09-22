@@ -1,11 +1,11 @@
-import {HiFire} from 'react-icons/hi'
+import {MdPlaylistAdd} from 'react-icons/md'
 import TrendingVideoCard from '../TrendingVideoCard'
 import VideosContext from '../../context/VideosContext'
 import SideMenuBar from '../SideMenuBar'
 
 import Header from '../Header'
 import {
-  TrendingMainContainer,
+  SavedVideosMainContainer,
   ResponsiveContainer,
   ContentContainer,
   TopContainer,
@@ -21,7 +21,7 @@ import {
 const SavedVideos = () => (
   <VideosContext.Consumer>
     {value => {
-      const {savedVideos} = value
+      const {savedVideos, isDarkMode} = value
       const isVideos = savedVideos.length > 0
 
       const renderSuccessView = () => (
@@ -38,29 +38,34 @@ const SavedVideos = () => (
             src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
             alt="no saved videos"
           />
-          <NoVideostitle>No saved videos found</NoVideostitle>
-          <NoVideosDesc>
+          <NoVideostitle isDarkMode={isDarkMode}>
+            No saved videos found
+          </NoVideostitle>
+          <NoVideosDesc isDarkMode={isDarkMode}>
             You can save your videos while watching them
           </NoVideosDesc>
         </NoVideosContainer>
       )
 
       return (
-        <TrendingMainContainer>
+        <SavedVideosMainContainer
+          data-testid="savedVideos"
+          isDarkMode={isDarkMode}
+        >
           <Header />
           <ResponsiveContainer>
             <SideMenuBar />
             <ContentContainer>
-              <TopContainer>
-                <FireIconContainer>
-                  <HiFire size="57%" color="#ff0000" />
+              <TopContainer isDarkMode={isDarkMode}>
+                <FireIconContainer isDarkMode={isDarkMode}>
+                  <MdPlaylistAdd size="55%" color="#ff0000" />
                 </FireIconContainer>
-                <PageTitle>Saved Videos</PageTitle>
+                <PageTitle isDarkMode={isDarkMode}>Saved Videos</PageTitle>
               </TopContainer>
               {isVideos ? renderSuccessView() : renderFailureView()}
             </ContentContainer>
           </ResponsiveContainer>
-        </TrendingMainContainer>
+        </SavedVideosMainContainer>
       )
     }}
   </VideosContext.Consumer>

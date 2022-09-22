@@ -4,7 +4,7 @@ export const HomeMainContainer = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f9f9f9;
+  background-color: ${props => (props.isDarkMode ? '#0f0f0f' : '#f9f9f9')};
 `
 
 export const ResponsiveContainer = styled.div`
@@ -47,9 +47,10 @@ export const InputField = styled.input`
   padding: 0px 15px;
   height: 100%;
   flex-grow: 1;
-  border: 1px solid #cccccc;
+  border: 2px solid ${props => (props.isDarkMode ? '#383838' : '#cccccc')};
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
+  background-color: transparent;
 
   &:focus {
     outline: none;
@@ -60,7 +61,7 @@ export const InputField = styled.input`
 
 export const SearchButton = styled.button`
   background-color: transparent;
-  border: 1px solid #cccccc;
+  border: 2px solid ${props => (props.isDarkMode ? '#383838' : '#cccccc')};
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   height: 100%;
@@ -73,7 +74,7 @@ export const SearchButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #b7b7b7;
+    background-color: ${props => (props.isDarkMode ? '#383838' : '#cccccc')};
   }
 
   @media screen and (min-width: 992px) {
@@ -112,19 +113,30 @@ export const FailureImg = styled.img`
 export const FailureTitle = styled.h1`
   font-family: 'Roboto';
   font-size: 16px;
-  color: #383838;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#383838')};
   text-align: center;
   margin-top: 20px;
+  font-weight: 500;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+    margin-top: 40px;
+  }
 `
 
 export const FailureDesc = styled.p`
   font-family: 'Roboto';
   font-size: 14px;
-  color: #606060;
+  color: ${props => (props.isDarkMode ? '#94a3b8' : '#606060')};
   text-align: center;
   margin-top: 0px;
   padding: 0px 20px;
   max-width: 400px;
+
+  @media screen and (min-width: 992px) {
+    font-size: 16px;
+    max-width: 450px;
+  }
 `
 
 export const RetryButton = styled.button`

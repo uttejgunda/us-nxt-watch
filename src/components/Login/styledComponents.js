@@ -14,12 +14,13 @@ export const ContentContainer = styled.div`
 `
 export const FormContainer = styled.form`
   background-color: #ffffff;
-  padding: 50px 25px;
+  padding: 50px 35px;
   width: 100%;
-  max-width: 450px;
+  max-width: 400px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0px 0px 30px grey;
 `
 
 export const WebsiteLogo = styled.img`
@@ -34,32 +35,35 @@ export const InputContainer = styled.div`
 `
 export const Label = styled.label`
   font-family: 'Roboto';
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: #64748b;
 `
 export const InputField = styled.input`
-  padding: 12px 24px;
+  padding: 10px 20px;
   border: 1px solid #94a3b8;
   font-family: 'Roboto';
-  font-size: 18px;
+  font-size: 16px;
   border-radius: 4px;
-  margin-top: 5px;
+  margin-top: 8px;
+  outline-color: #3b82f6;
 `
 
 export const CheckboxContainer = styled.div`
   margin-top: 15px;
+  display: flex;
+  align-items: center;
 `
 
 export const CheckboxLabel = styled.label`
   font-family: 'Roboto';
-  font-size: 18px;
+  font-size: 14px;
   color: #0f0f0f;
 `
 export const SubmitButton = styled.button`
   font-family: 'Roboto';
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 500;
   color: #ffffff;
   background-color: #3b82f6;
   border-radius: 8px;
@@ -68,7 +72,7 @@ export const SubmitButton = styled.button`
   outline: none;
   cursor: pointer;
   margin-top: 25px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 `
 export const Errormsg = styled.p`
   font-family: 'Roboto';

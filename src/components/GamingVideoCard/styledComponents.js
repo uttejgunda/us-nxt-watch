@@ -28,14 +28,14 @@ export const Title = styled.p`
   font-family: 'Roboto';
   font-size: 14px;
   font-weight: 500;
-  color: #231f20;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#231f20')};
   margin: 0px;
 `
 
 export const ViewCount = styled.p`
   font-family: 'Roboto';
   font-size: 12px;
-  color: #606060;
+  color: ${props => (props.isDarkMode ? '#94a3b8' : '#606060')};
   margin-top: 5px;
   line-height: 20px;
 `

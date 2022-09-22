@@ -1,15 +1,12 @@
-import {Component} from 'react'
-import {Link} from 'react-router-dom'
 import {AiFillHome} from 'react-icons/ai'
 import {HiFire} from 'react-icons/hi'
 import {SiYoutubegaming} from 'react-icons/si'
 import {MdPlaylistAdd} from 'react-icons/md'
-
+import SideMenuTab from '../SideMenuTab'
+import VideoContext from '../../context/VideosContext'
 import {
   SideMenuContainer,
   MenuListContainer,
-  MenuListItem,
-  MenuTitle,
   FooterContainer,
   SubHeading,
   MediaIconsRow,
@@ -17,79 +14,80 @@ import {
   FooterDesc,
 } from './styledComponents'
 
-class SideMenuBar extends Component {
-  render() {
-    return (
-      <SideMenuContainer>
-        <MenuListContainer>
-          <Link
-            onClick={this.onHomeClick}
-            to="/"
-            style={{textDecoration: 'none'}}
-          >
-            <MenuListItem selected>
-              <AiFillHome size="20" color="#ff0000" />
-              <MenuTitle selected>Home</MenuTitle>
-            </MenuListItem>
-          </Link>
+const menuTabs = [
+  {
+    id: 'HOME',
+    title: 'Home',
+    icon: <AiFillHome size="20" />,
+    link: '/',
+  },
+  {
+    id: 'TRENDING',
+    title: 'Trending',
+    icon: <HiFire size="20" />,
+    link: '/trending',
+  },
+  {
+    id: 'GAMING',
+    title: 'Gaming',
+    icon: <SiYoutubegaming size="20" />,
+    link: '/gaming',
+  },
+  {
+    id: 'SAVED',
+    title: 'Saved videos',
+    icon: <MdPlaylistAdd size="20" />,
+    link: '/saved-videos',
+  },
+]
 
-          <Link
-            onClick={this.onTrendingClick}
-            to="/trending"
-            style={{textDecoration: 'none'}}
-          >
-            <MenuListItem>
-              <HiFire size="20" color="#606060" />
-              <MenuTitle>Trending</MenuTitle>
-            </MenuListItem>
-          </Link>
+const SideMenuBar = () => (
+  <VideoContext.Consumer>
+    {value => {
+      const {activeTab, updateActiveTab, isDarkMode} = value
 
-          <Link
-            onClick={this.onGamingClick}
-            to="/gaming"
-            style={{textDecoration: 'none'}}
-          >
-            <MenuListItem>
-              <SiYoutubegaming size="20" color="#606060" />
-              <MenuTitle>Gaming</MenuTitle>
-            </MenuListItem>
-          </Link>
+      const onTabClick = id => {
+        updateActiveTab(id)
+      }
 
-          <Link
-            onClick={this.onSavedClick}
-            to="/saved-videos"
-            style={{textDecoration: 'none'}}
-          >
-            <MenuListItem>
-              <MdPlaylistAdd size="20" color="#606060" />
-              <MenuTitle>Saved videos</MenuTitle>
-            </MenuListItem>
-          </Link>
-        </MenuListContainer>
+      return (
+        <SideMenuContainer isDarkMode={isDarkMode}>
+          <MenuListContainer>
+            {menuTabs.map(eachItem => (
+              <SideMenuTab
+                details={eachItem}
+                onTabClick={onTabClick}
+                activeTab={activeTab}
+                key={eachItem.id}
+                isDarkMode={isDarkMode}
+              />
+            ))}
+          </MenuListContainer>
 
-        <FooterContainer>
-          <SubHeading>CONTACT US</SubHeading>
-          <MediaIconsRow>
-            <MediaIcon
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png"
-              alt="facebook logo"
-            />
-            <MediaIcon
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-twitter-logo-img.png"
-              alt="twitter logo"
-            />
-            <MediaIcon
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png"
-              alt="linked in logo"
-            />
-          </MediaIconsRow>
-          <FooterDesc>
-            Enjoy! Now to see your channels and recommendations!
-          </FooterDesc>
-        </FooterContainer>
-      </SideMenuContainer>
-    )
-  }
-}
+          <FooterContainer>
+            <SubHeading isDarkMode={isDarkMode}>CONTACT US</SubHeading>
+            <MediaIconsRow>
+              <MediaIcon
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png"
+                alt="facebook logo"
+              />
+              <MediaIcon
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-twitter-logo-img.png"
+                alt="twitter logo"
+              />
+              <MediaIcon
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png"
+                alt="linked in logo"
+              />
+            </MediaIconsRow>
+            <FooterDesc isDarkMode={isDarkMode}>
+              Enjoy! Now to see your channels and recommendations!
+            </FooterDesc>
+          </FooterContainer>
+        </SideMenuContainer>
+      )
+    }}
+  </VideoContext.Consumer>
+)
 
 export default SideMenuBar

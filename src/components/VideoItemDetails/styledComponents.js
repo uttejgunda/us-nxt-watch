@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const VideoDetails = styled.div`
-  background-color: #f9f9f9;
+  background-color: ${props => (props.isDarkMode ? '#0f0f0f' : '#f9f9f9')};
   min-height: 100vh;
 `
 
@@ -45,7 +45,7 @@ export const VideoTitle = styled.p`
   font-family: 'Roboto';
   font-size: 16px;
   font-weight: 400;
-  color: #231f20;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#231f20')};
   margin-top: 15px;
   margin-bottom: 15px;
 
@@ -76,7 +76,7 @@ export const ViewsAndDateRow = styled.div`
 export const ViewsAndDateItem = styled.p`
   font-family: 'Roboto';
   font-size: 12px;
-  color: #606060;
+  color: ${props => (props.isDarkMode ? '#64748b' : '#606060')};
   font-weight: ${props => (props.seperator ? 'bold' : 'normal')};
   margin-right: ${props => (props.seperator ? '10px' : '0px')};
   margin-left: ${props => (props.seperator ? '10px' : '0px')};
@@ -188,7 +188,7 @@ export const ActionSavedTitle = styled.p`
 `
 
 export const HrTag = styled.hr`
-  background-color: #cccccc;
+  background-color: ${props => (props.isDarkMode ? '#64748b' : '#cccccc')};
   border: none;
   height: 1px;
   margin: 0px;
@@ -213,14 +213,14 @@ export const ProfilePic = styled.img`
 export const ChannelName = styled.p`
   font-family: 'Roboto';
   font-size: 14px;
-  color: #231f20;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#231f20')};
   margin-bottom: 0px;
 `
 
 export const ChannelSubscribers = styled.p`
   font-family: 'Roboto';
   font-size: 14px;
-  color: #909090;
+  color: ${props => (props.isDarkMode ? '#64748b' : '#909090')};
   margin-top: 5px;
 `
 
@@ -228,6 +228,7 @@ export const VideoDesc = styled.p`
   font-family: 'Roboto';
   font-size: 14px;
   color: #231f20;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#231f20')};
 `
 
 export const LoaderContainer = styled.div`
@@ -240,6 +241,8 @@ export const FailureContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  flex-grow: 1;
 `
 
 export const FailureImg = styled.img`
@@ -253,19 +256,30 @@ export const FailureImg = styled.img`
 export const FailureTitle = styled.h1`
   font-family: 'Roboto';
   font-size: 16px;
-  color: #383838;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#383838')};
   text-align: center;
   margin-top: 20px;
+  font-weight: 500;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+    margin-top: 40px;
+  }
 `
 
 export const FailureDesc = styled.p`
   font-family: 'Roboto';
   font-size: 14px;
-  color: #606060;
+  color: ${props => (props.isDarkMode ? '#94a3b8' : '#606060')};
   text-align: center;
   margin-top: 0px;
   padding: 0px 20px;
   max-width: 400px;
+
+  @media screen and (min-width: 992px) {
+    font-size: 16px;
+    max-width: 450px;
+  }
 `
 
 export const RetryButton = styled.button`

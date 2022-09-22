@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const TrendingMainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
+  background-color: ${props => (props.isDarkMode ? '#0f0f0f' : '#f9f9f9')};
   min-height: 100vh;
 `
 
@@ -25,16 +25,16 @@ export const ContentContainer = styled.div`
 export const TopContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #f4f4f4;
+  background-color: ${props => (props.isDarkMode ? '#212121' : '#f4f4f4')};
   padding: 15px 20px;
 
   @media screen and (min-width: 576px) {
-    padding: 10px 25px;
+    padding: 15px 25px;
   }
 `
 
 export const FireIconContainer = styled.div`
-  background-color: #e2e8f0;
+  background-color: ${props => (props.isDarkMode ? '#0f0f0f' : '#e2e8f0')};
   width: 50px;
   height: 50px;
   border-radius: 100px;
@@ -43,19 +43,20 @@ export const FireIconContainer = styled.div`
   align-items: center;
 
   @media screen and (min-width: 576px) {
-    width: 45px;
-    height: 45px;
+    width: 60px;
+    height: 60px;
   }
 `
 
 export const PageTitle = styled.h1`
   font-family: 'Roboto';
   font-size: 22px;
-  color: #1e293b;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#1e293b')};
   margin-left: 10px;
 
   @media screen and (min-width: 576px) {
     margin-left: 15px;
+    font-size: 24px;
   }
 `
 
@@ -67,7 +68,7 @@ export const BottomListContainer = styled.ul`
   height: 80vh;
 
   @media screen and (min-width: 576px) {
-    padding: 20px;
+    padding: 40px;
   }
 `
 
@@ -96,19 +97,30 @@ export const FailureImg = styled.img`
 export const FailureTitle = styled.h1`
   font-family: 'Roboto';
   font-size: 16px;
-  color: #383838;
+  color: ${props => (props.isDarkMode ? '#ffffff' : '#383838')};
   text-align: center;
   margin-top: 20px;
+  font-weight: 500;
+
+  @media screen and (min-width: 992px) {
+    font-size: 24px;
+    margin-top: 40px;
+  }
 `
 
 export const FailureDesc = styled.p`
   font-family: 'Roboto';
   font-size: 14px;
-  color: #606060;
+  color: ${props => (props.isDarkMode ? '#94a3b8' : '#606060')};
   text-align: center;
   margin-top: 0px;
   padding: 0px 20px;
   max-width: 400px;
+
+  @media screen and (min-width: 992px) {
+    font-size: 16px;
+    max-width: 450px;
+  }
 `
 
 export const RetryButton = styled.button`
