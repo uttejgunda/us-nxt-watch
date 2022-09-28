@@ -79,12 +79,44 @@ const Header = props => (
                 />
               </MenuBurgerLgButton>
 
-              <MenuLogoutSmButton type="button" onClick={onLogout}>
-                <FiLogOut
-                  size="100%"
-                  color={isDarkMode ? '#ffffff' : '#181818'}
-                />
-              </MenuLogoutSmButton>
+              <div className="popup-container">
+                <Popup
+                  modal
+                  trigger={
+                    <MenuLogoutSmButton type="button" onClick={onLogout}>
+                      <FiLogOut
+                        size="100%"
+                        color={isDarkMode ? '#ffffff' : '#181818'}
+                      />
+                    </MenuLogoutSmButton>
+                  }
+                >
+                  {close => (
+                    <PopupMainContainer isDarkMode={isDarkMode}>
+                      <PopupDesc isDarkMode={isDarkMode}>
+                        Are you sure, you want to logout
+                      </PopupDesc>
+
+                      <PopupButtonsRow>
+                        <PopupCancelButton
+                          type="button"
+                          className="trigger-button"
+                          onClick={() => close()}
+                        >
+                          Cancel
+                        </PopupCancelButton>
+                        <PopupLogoutButton
+                          type="button"
+                          className="trigger-button"
+                          onClick={onLogout}
+                        >
+                          Confirm
+                        </PopupLogoutButton>
+                      </PopupButtonsRow>
+                    </PopupMainContainer>
+                  )}
+                </Popup>
+              </div>
 
               <div className="popup-container">
                 <Popup
